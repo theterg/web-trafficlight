@@ -3,11 +3,22 @@
         <script src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
         <script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
         <style>
+          #light {
+            position:absolute;
+            left:0;
+            top:0;
+            pointer-events:none;
+          }
+          #lights {
+            position:relative;
+            left:60px;
+            top:80px;
+          }
           a {
             display:block;
-            width:80px;
-            height:80px;
-            opacity:0.4;
+            width:250px;
+            height:240px;
+            
           }
           #red {
             background-color: red;
@@ -19,7 +30,7 @@
             background-color: green;
           }
           .on {
-            opacity:1.0;
+            opacity:0.4;
           }
 
         </style>
@@ -73,12 +84,6 @@
             <a id='yellow' href='#' onclick='toggle("yellow")'></a>
             <a id='green' href='#' onclick='toggle("green")'></a>
         </div>
-		<img src="images/traffic-lights.jpg" usemap="#trafficmap" />
-		<map name="trafficmap">
-			<area shape="circle" coords="305,95,60" onclick='toggle("red");' title="red" alt="red" />
-			<area shape="circle" coords="305,220,60" onclick='toggle("yellow");' title="yellow" alt="yellow" />
-			<area shape="circle" coords="305,345,60" onclick='toggle("green");' title="green" alt="green" />
-
-		</map>
+		<img id='light' src="images/lights.png"/>
     </body>
 </html>
