@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <script type="text/javascript" src="http://cdn.buglabs.net/swarm/swarm-v0.4.0.js"></script>
+    </head>
+    <body>
+        <script>
+            /* Open this file twice or more and you should be able 
+                to see presence in the developer console of your browser. */
+			var pinmap = {red:18, yellow:15, green:14};
+            function onPresence(presence) {
+                //console.log('presence -> ' + Date.now() + ':' + JSON.stringify(presence));
+            }
+
+            function onMessage(message) {
+                //console.log('message -> ' + Date.now() + ': ' + JSON.stringify(message));
+            }
+
+            function onError(error) {
+                //console.log('error! -> ' + JSON.stringify(error));
+            }
+
+			function toggle(light){
+				//console.log('toggling '+light+', pin '+pinmap[light]);
+				SWARM.send({name: 'gpio_toggle',feed: {pin: pinmap[light]}});
+			}
+
+            SWARM.debug = true;
+
+            var timer;
+            SWARM.connect({ apikey: '7a849e6548dbd6f8034bb7cc1a37caa0b1a2654b',
+                            resource: '0c341a3a06ec767078aa4c87e2e73f8d598328f3',
+                            swarms: ['cc4f0639f17be5c5adbc6007b1db18dbbab02f26'],
+                            onmessage: onMessage,
+                            onpresence: onPresence,
+                            onerror: onError,
+                            onconnect: 
+            function onConnect() {
+                //console.log('connected!');
+                if(timer) { //Clears interval upon re-connection
+                    clearInterval(timer);
+                }
+                timer = setInterval(function() {
+                    SWARM.send({keepalive: "true"});
+                }, 90000);
+            }});
+        </script>
+		<img src="images/traffic-lights.jpg" usemap="#trafficmap" />
+		<map name="trafficmap">
+			<area shape="circle" coords="305,95,60" onclick='toggle("red");' title="red" alt="red" />
+			<area shape="circle" coords="305,220,60" onclick='toggle("yellow");' title="yellow" alt="yellow" />
+			<area shape="circle" coords="305,345,60" onclick='toggle("green");' title="green" alt="green" />
+
+		</map>
+    </body>
+</html>
